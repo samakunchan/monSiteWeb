@@ -7,6 +7,8 @@
  */
 
 namespace App\Routing;
+use Controllers\EmailController;
+use Controllers\HomeController;
 
 
 /**
@@ -16,14 +18,20 @@ namespace App\Routing;
  */
 class Route
 {
-    //
+    /**
+     * @var HomeController
+     */
+    private $homePage;
+
+    private $emailPage;
 
     /**
      * Route constructor.
      */
     public function __construct()
     {
-        //
+        $this->homePage = new HomeController();
+        $this->emailPage = new EmailController();
     }
 
     /**
@@ -47,7 +55,12 @@ class Route
     public function gestionPages($pages)
     {
         switch ($pages){
-            //
+            case 'home':
+                $this->homePage->builHomeView();
+                break;
+            case 'mail':
+                $this->emailPage->buildEmailView();
+                break;
             default: 'La page n\'existe pas';
         }
     }
@@ -58,6 +71,6 @@ class Route
     public static function redirection($pages)
     {
         header('Location: '.$pages.' ');
-        exit(); //refaire ça
+        exit();
     }
 }

@@ -30,6 +30,10 @@
                 <input type="tel" id="tel" name="tel">
             </div>
             <div class="col-lg-12">
+                <label for="title">Titre</label>
+                <input type="text" id="title" name="title">
+            </div>
+            <div class="col-lg-12">
                 <p><label for="content">Message</label></p>
                 <textarea name="content" id="content" cols="100%" rows="10"></textarea>
             </div>

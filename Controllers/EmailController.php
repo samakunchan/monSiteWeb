@@ -11,7 +11,12 @@ namespace Controllers;
 
 use App\Routing\Route;
 use App\Tools\Views;
+use Models\Entity\Mail;
 
+/**
+ * Class EmailController
+ * @package Controllers
+ */
 class EmailController
 {
     /**
@@ -35,13 +40,18 @@ class EmailController
     private $data;
 
     /**
+     * @var
+     */
+    private $mail;
+
+    /**
      * EmailController constructor.
      */
     public function __construct()
     {
         $this->emailView = new Views('mail');
+        $this->mail = new Mail();
     }
-//<style onload="alert('Grosse injection XSS ici. Ne jamais croire ce que les $_GET ou $_POST contiennent');"></style>
 
     /**
      * Méthode pour générer la vue de du formulaire pour l'envoie d'un message (email)
@@ -53,6 +63,7 @@ class EmailController
                 isset($_POST['entreprise']) && !empty($_POST['entreprise']) &&
                 isset($_POST['mail']) && !empty($_POST['mail']) &&
                 isset($_POST['tel']) && !empty($_POST['tel']) &&
+                isset($_POST['title']) && !empty($_POST['title']) &&
                 isset($_POST['token']) && !empty($_POST['token']) &&
                 isset($_POST['content']) && !empty($_POST['content'])){
                 $this->data = $_POST;
@@ -75,9 +86,15 @@ class EmailController
     public function checkThePost()
     {
         if ($this->checkTokenCSRF($this->data['token'], 'ProtectedMailSend')){
+            $this->mail->setName($this->data['name']);
+            $this->mail->setEntreprise($this->data['entreprise']);
+            $this->mail->setEmail($this->data['mail']);
+            $this->mail->setTel($this->data['tel']);
+            $this->mail->setTitle($this->data['title']);
+            $this->mail->setContent($this->data['content']);
             $this->generateEmail();
             $this->messageSuccess = 'Votre message a bien été envoyé';
-            //Route::refreshing('mail');
+            Route::refreshing('mail');
         }else{
             $this->messageError = "Un problème est survenu lors de l'envoie de votre message.";
         }
@@ -89,8 +106,8 @@ class EmailController
     public function generateEmail()
     {
         $mail = 'cedric.badjah@samakunchan.fr';
-        $mailOwner = $this->data['mail'];
-        $nameOwner = $this->data['name'];
+        $mailOwner = $this->mail->getEmail();
+        $nameOwner = $this->mail->getName();
         if (!preg_match("#^[a-z0-9._-]+@(hotmail|live|msn).[a-z]{2,4}$#", $mail))
         {
             $passage_ligne = "\r\n";
@@ -112,10 +129,11 @@ class EmailController
   <section>
 <br>
 <div>
-    <p>Entreprise : '.$this->data['entreprise'].'</p>
+    <p>Entreprise : '.$this->mail->getEntreprise().'</p>
+    <p>Tel: '.$this->mail->getTel().'</p>
 </div>
   <div>
-  <p>'.$this->data['content'].'</p>
+  <p>'.$this->mail->getContent().'</p>
 </div>
 </section>
 </body>
@@ -126,7 +144,7 @@ class EmailController
 //==========
 
 //=====Définition du sujet.
-        $sujet = "Hey mon ami !";
+        $sujet = $this->mail->getTitle();
 //=========
 
 //=====Création du header de l'e-mail.
@@ -148,7 +166,7 @@ class EmailController
 //==========
 
 //=====Envoi de l'e-mail.
-        mail($mail,$sujet,$message,$header);
+        //mail($mail,$sujet,$message,$header);
 //==========
     }
 

@@ -85,6 +85,6 @@ class Route
     public static function refreshing($pages)
     {
         $url='http://localhost/perso/Public/'.$pages;
-        header("Refresh: 2;url=$url");
+        header("Refresh: 3;url=$url");
     }
 }

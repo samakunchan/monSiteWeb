@@ -27,16 +27,6 @@ class EmailController
     /**
      * @var
      */
-    private $messageSuccess;
-
-    /**
-     * @var
-     */
-    private $messageError;
-
-    /**
-     * @var
-     */
     private $data;
 
     /**
@@ -62,20 +52,20 @@ class EmailController
             if (isset($_POST['name']) && !empty($_POST['name']) &&
                 isset($_POST['entreprise']) && !empty($_POST['entreprise']) &&
                 isset($_POST['mail']) && !empty($_POST['mail']) &&
-                isset($_POST['tel']) && !empty($_POST['tel']) &&
+                isset($_POST['tel']) &&
                 isset($_POST['title']) && !empty($_POST['title']) &&
                 isset($_POST['token']) && !empty($_POST['token']) &&
                 isset($_POST['content']) && !empty($_POST['content'])){
                 $this->data = $_POST;
                 $this->checkThePost();
             }else{
-                $this->messageError = "Veuillez remplir tout les champs";
+                $this->mail->setMessageError("Veuillez remplir tout les champs");
             }
         }
         $dataForPage =
             [
-            'messageError' => $this->messageError,
-            'messageSuccess' =>  $this->messageSuccess
+            'messageError' => $this->mail->getMessageError(),
+            'messageSuccess' =>  $this->mail->getMessageSuccess()
             ];
         $this->emailView->genererPages($dataForPage);
     }
@@ -89,14 +79,18 @@ class EmailController
             $this->mail->setName($this->data['name']);
             $this->mail->setEntreprise($this->data['entreprise']);
             $this->mail->setEmail($this->data['mail']);
-            $this->mail->setTel($this->data['tel']);
+            $resTel = $this->mail->setTel($this->data['tel']);
+            if (!$resTel){
+                $this->mail->setMessageError("Les données du champ 'Téléphone' sont invalides.");
+                return false;
+            }
             $this->mail->setTitle($this->data['title']);
             $this->mail->setContent($this->data['content']);
             $this->generateEmail();
-            $this->messageSuccess = 'Votre message a bien été envoyé';
+            $this->mail->setMessageSuccess("Votre message a bien été envoyé");
             Route::refreshing('mail');
         }else{
-            $this->messageError = "Un problème est survenu lors de l'envoie de votre message.";
+            $this->mail->setMessageError("Un problème est survenu lors de l'envoie de votre message.");
         }
     }
 
@@ -195,5 +189,4 @@ class EmailController
     {
         return $token === self::tokenCSRF($formName);
     }
-
 }

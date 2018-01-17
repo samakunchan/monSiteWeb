@@ -48,6 +48,16 @@ class Mail
      */
     private $content;
 
+    /**
+     * @var
+     */
+    private $messageSuccess;
+
+    /**
+     * @var
+     */
+    private $messageError;
+
     /****************************************************************************************
      * SETTER ET GETTER
      * **************************************************************************************
@@ -119,7 +129,7 @@ class Mail
     public function setEmail($email)
     {
         if (isset($email) && !empty($email)){
-            if (is_string($email)){
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)){
                 $this->email = $email;
                 return $this;
             }
@@ -141,17 +151,22 @@ class Mail
      * @return $this
      * @throws \Exception
      */
-    public function setTel($tel)
+    public function setTel($tel = false)
     {
-        if (isset($tel) && !empty($tel)){
-            if (is_numeric($tel)){
-                $this->tel = $tel;
-                return $this;
+        if ($tel){
+            if (isset($tel)){
+                if (is_numeric($tel) && strlen($tel)<= 13 && strlen($tel)>= 10 ){
+                    $this->tel = $tel;
+                    return $this;
+                }else{
+                    return false;
+                }
             }else{
-                throw new \Exception("Le champ 'tel' n'est pas numérique");
+                throw new \Exception("Le champ 'tel' est invalide");
             }
         }else{
-            throw new \Exception("Le champ 'tel' est invalide");
+            $this->tel = $tel;
+            return $this;
         }
     }
 
@@ -204,4 +219,56 @@ class Mail
             throw new \Exception("Le champ 'content' est invalide");
         }
     }
+
+    /**
+     * @return mixed
+     */
+    public function getMessageSuccess()
+    {
+        return (string) $this->messageSuccess;
+    }
+
+    /**
+     * @param $messageSuccess
+     * @return $this
+     * @throws \Exception
+     */
+    public function setMessageSuccess($messageSuccess)
+    {
+        if (isset($messageSuccess) && !empty($messageSuccess)){
+            if (is_string($messageSuccess)){
+                $this->messageSuccess = $messageSuccess;
+                return $this;
+            }
+        }else{
+            throw new \Exception("Le champ 'messageSuccess' est invalide");
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMessageError()
+    {
+        return (string) $this->messageError;
+    }
+
+    /**
+     * @param $messageError
+     * @return $this
+     * @throws \Exception
+     */
+    public function setMessageError($messageError)
+    {
+        if (isset($messageError) && !empty($messageError)){
+            if (is_string($messageError)){
+                $this->messageError = $messageError;
+                return $this;
+            }
+        }else{
+            throw new \Exception("Le champ 'messageError' est invalide");
+        }
+    }
+
+
 }

@@ -11,10 +11,11 @@
             </div>
         <?php endif; ?>
     </article>
-    <article class="col-lg-8">
+    <article class="col-lg-8 form">
         <form class="row" method="post">
             <div class="col-lg-6">
                 <label for="name">Nom</label>
+                <span>*</span>
                 <input type="text" id="name" name="name">
             </div>
             <div class="col-lg-6">
@@ -23,6 +24,7 @@
             </div>
             <div class="col-lg-6">
                 <label for="mail">Email</label>
+                <span>*</span>
                 <input type="email" id="mail" name="mail">
             </div>
             <div class="col-lg-6">
@@ -31,10 +33,14 @@
             </div>
             <div class="col-lg-12">
                 <label for="title">Titre</label>
+                <span>*</span>
                 <input type="text" id="title" name="title">
             </div>
             <div class="col-lg-12">
-                <p><label for="content">Message</label></p>
+                <p>
+                    <label for="content">Message</label>
+                    <span>*</span>
+                </p>
                 <textarea name="content" id="content" cols="100%" rows="10"></textarea>
             </div>
             <input type="hidden" name="token" value="<?= \Controllers\EmailController::tokenCSRF('ProtectedMailSend'); ?>">

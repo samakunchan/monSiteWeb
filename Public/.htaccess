@@ -1,3 +1,4 @@
 RewriteEngine on
 RewriteRule ^home   index.php
 RewriteRule ^mail   index.php?page=mail
+RewriteRule ^more-infos  index.php?page=infos

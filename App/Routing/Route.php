@@ -9,6 +9,7 @@
 namespace App\Routing;
 use Controllers\EmailController;
 use Controllers\HomeController;
+use Controllers\InfosController;
 
 
 /**
@@ -29,12 +30,18 @@ class Route
     private $emailPage;
 
     /**
+     * @var InfosController
+     */
+    private $infosPage;
+
+    /**
      * Route constructor.
      */
     public function __construct()
     {
         $this->homePage = new HomeController();
         $this->emailPage = new EmailController();
+        $this->infosPage = new InfosController();
     }
 
     /**
@@ -64,6 +71,9 @@ class Route
                 break;
             case 'mail':
                 $this->emailPage->buildEmailView();
+                break;
+            case 'infos':
+                $this->infosPage->buildInfoView();
                 break;
             default: 'La page n\'existe pas';
         }

@@ -62,7 +62,7 @@
                 professionnel expérimenté. Les 5 projets ci-dessous sont une condition sine qua non pour avoir le diplôme.</p>
                 <p>
                     <a href="home" class="btn btn-primary">Voir mes projets</a>
-                    <a href="#" class="btn btn-secondary">En savoir plus sur moi</a>
+                    <a href="more-infos" class="btn btn-secondary">En savoir plus sur moi</a>
                 </p>
             </div>
         </section>

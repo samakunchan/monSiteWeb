@@ -57,13 +57,4 @@ class Views
             return true;
         }
     }
-
-    public function getBodyEmail()
-    {
-        if (file_exists($this->fichier)){
-            require $this->fichier;
-            return true;
-        }
-    }
-
 }

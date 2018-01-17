@@ -23,6 +23,9 @@ class Route
      */
     private $homePage;
 
+    /**
+     * @var EmailController
+     */
     private $emailPage;
 
     /**
@@ -50,6 +53,7 @@ class Route
     }
 
     /**
+     * @param $pages
      * Méthode qui control le type de page appelé et redirige vers le controlleur adapté
      */
     public function gestionPages($pages)
@@ -66,11 +70,21 @@ class Route
     }
 
     /**
+     * @param $pages
      * Méthode static qui permet les redirections dynamiques
      */
     public static function redirection($pages)
     {
         header('Location: '.$pages.' ');
         exit();
+    }
+
+    /**
+     * @param $pages
+     */
+    public static function refreshing($pages)
+    {
+        $url='http://localhost/perso/Public/'.$pages;
+        header("Refresh: 2;url=$url");
     }
 }

@@ -19,3 +19,17 @@
 .text-muted{
     color: black;
 }
+input, textarea{
+    width: 100%;
+    padding: 10px;
+}
+input[type="submit"]{
+    width: 20%;
+}
+.emailPage i{
+    padding: 10px;
+}
+.emailPage span{
+    position: absolute;
+    top: 10px;
+}

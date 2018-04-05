@@ -10,6 +10,7 @@ namespace Controllers;
 
 
 use App\Tools\Views;
+use Models\Entity\Images;
 
 class InfosController
 {

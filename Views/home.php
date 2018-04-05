@@ -17,9 +17,7 @@
     <article class="cards col-lg-4">
         <img src="images/projet/app.jpg" alt="Card image cap">
         <p class="cards-text">Application de réservation de vélo sur Paris. Introduction au Javascript, AJAX et les API. Site créé entièrement en Javascript Object.</p>
-        <div class="btn btn-primary bloc">
-            <a target="_blank" href="http://bicyclecitylocation.samakunchan.fr/">Voir</a>
-        </div>
+        <div id="redirect" class="btn btn-primary bloc">Voir</div>
     </article>
     <article class="cards col-lg-4">
         <img src="images/projet/jfr.jpg" alt="Card image cap">
@@ -38,6 +36,5 @@
             <a target="_blank" href="http://plateformjdr.samakunchan.fr/home">Voir</a>
         </div>
     </article>
-
 </section>
-
+<script src="js/alert.js"></script>

@@ -9,6 +9,7 @@
 namespace Controllers;
 
 use App\Tools\Views;
+use Imagick;
 
 class HomeController
 {

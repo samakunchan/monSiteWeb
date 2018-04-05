@@ -50,9 +50,7 @@ class EmailController
     {
         if ($_POST){
             if (isset($_POST['name']) && !empty($_POST['name']) &&
-                isset($_POST['entreprise']) && !empty($_POST['entreprise']) &&
                 isset($_POST['mail']) && !empty($_POST['mail']) &&
-                isset($_POST['tel']) &&
                 isset($_POST['title']) && !empty($_POST['title']) &&
                 isset($_POST['token']) && !empty($_POST['token']) &&
                 isset($_POST['content']) && !empty($_POST['content'])){
@@ -64,8 +62,8 @@ class EmailController
         }
         $dataForPage =
             [
-            'messageError' => $this->mail->getMessageError(),
-            'messageSuccess' =>  $this->mail->getMessageSuccess()
+                'messageError' => $this->mail->getMessageError(),
+                'messageSuccess' =>  $this->mail->getMessageSuccess()
             ];
         $this->emailView->genererPages($dataForPage);
     }
@@ -77,13 +75,20 @@ class EmailController
     {
         if ($this->checkTokenCSRF($this->data['token'], 'ProtectedMailSend')){
             $this->mail->setName($this->data['name']);
-            $this->mail->setEntreprise($this->data['entreprise']);
-            $this->mail->setEmail($this->data['mail']);
-            $resTel = $this->mail->setTel($this->data['tel']);
-            if (!$resTel){
-                $this->mail->setMessageError("Les données du champ 'Téléphone' sont invalides.");
-                return false;
+            if (!empty($this->data['entreprise'])){
+                $this->mail->setEntreprise($this->data['entreprise']);
+            }else{
+                $this->mail->setEntreprise('Anonyme');
             }
+            $this->mail->setEmail($this->data['mail']);
+            if (!empty($this->data['tel'])){
+                $resTel = $this->mail->setTel($this->data['tel']);
+                if (!$resTel){
+                    $this->mail->setMessageError("Les données du champ 'Téléphone' sont invalides.");
+                    return false;
+                }
+            }
+
             $this->mail->setTitle($this->data['title']);
             $this->mail->setContent($this->data['content']);
             $this->generateEmail();
@@ -99,7 +104,7 @@ class EmailController
      */
     public function generateEmail()
     {
-        $mail = 'cedric.badjah@samakunchan.fr';
+        $mail = 'cedric.badjah@gmail.com';
         $mailOwner = $this->mail->getEmail();
         $nameOwner = $this->mail->getName();
         if (!preg_match("#^[a-z0-9._-]+@(hotmail|live|msn).[a-z]{2,4}$#", $mail))
@@ -160,7 +165,7 @@ class EmailController
 //==========
 
 //=====Envoi de l'e-mail.
-        //mail($mail,$sujet,$message,$header);
+        return mail($mail,$sujet,$message,$header);
 //==========
     }
 

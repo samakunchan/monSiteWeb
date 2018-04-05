@@ -38,3 +38,38 @@ input[type="submit"]{
     top:0;
     color: red;
 }
+#dialogoverlay{
+      display: none;
+      opacity: .8;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #FFF;
+      width: 100%;
+      z-index: 10;
+  }
+#dialogbox{
+    display: none;
+    position: fixed;
+    background-color: #CCC;
+    border-radius:7px;
+    width:550px;
+    z-index: 10;
+    font-size:20px;
+}
+#dialogbox > div{
+    background:#CCC; margin:10px;
+}
+#dialogboxhead{
+    color: #478bf9;
+}
+#dialogboxbody{
+    color: black;
+}
+#boutonOk{
+    width: 100%;
+}
+#align{
+    display: flex;
+    justify-content: space-around;
+}
